@@ -119,7 +119,7 @@ are found, then the **default** value is used.
 
 params:
 
-  * an array of fields with **case** clauses
+  * an array of fields with **switch** clauses
 
 example:
 
@@ -127,7 +127,7 @@ example:
       hourofday:
         random: randint(0, 24)
       timeofday:
-        case:
+        switch:
           - onlyif: this.hourofday < 10
             value: "morning"
           - onlyif: this.hourofday > 20

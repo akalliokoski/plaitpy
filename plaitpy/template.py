@@ -663,8 +663,7 @@ class Template(object):
                 i += 1
 
             try:
-                ret = val_func()
-                return ret
+                return val_func()
             except Exception as e:
                 self.track_error(field, e)
 
