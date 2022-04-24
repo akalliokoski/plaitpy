@@ -63,14 +63,14 @@ def main():
     if args.lookup:
         if args.lookup.find("#{") != -1:
             ff = fakerb.decode(args.lookup)
-            print("Interpolation of %s" % args.lookup)
+            print(f"Interpolation of {args.lookup}")
         elif args.lookup.find("{") != -1:
             ff = fakerb.decode(args.lookup.replace("{", "#{"), "")
-            print("Interpolation of %s" % args.lookup)
+            print(f"Interpolation of {args.lookup}")
 
         else:
             ff = fakerb.fetch(args.lookup, "", lookup=True)
-            print("Contents of %s" % args.lookup)
+            print(f"Contents of {args.lookup}")
 
         if hasattr(ff, "__iter__"):
             for f in ff:
@@ -91,7 +91,7 @@ def main():
             print(f)
 
         if remaining > 0:
-            print("... and %s more" % (remaining))
+            print(f"... and {remaining} more")
         return
 
     if not args.template:
@@ -105,6 +105,6 @@ def main():
     helpers.setup_globals()
 
     tmpl = template.Template(template_file)
-    debug.debug("*** GENERATING %s RECORDS" % args.num_records)
+    debug.debug(f"*** GENERATING {args.num_records} RECORDS")
     tmpl.print_records(args.num_records)
     fakerb.save_cache()
