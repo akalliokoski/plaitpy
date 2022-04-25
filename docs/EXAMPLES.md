@@ -113,7 +113,7 @@
         column: 3
         depends: useragent
 
-#### joining to a CSV using indeces
+#### joining to a CSV using indices
 
     # if we have two CSV that are:
     # zipcode_pop.csv: [ zipcode, population ]
@@ -187,3 +187,39 @@ newlines. this is really useful for defining multi-line functions. if the `>`
 character was used instead, the **printer:** would not work, because `>` is a
 comment separated by spaces in YAML and the resulting string would be invalid
 code.
+
+
+### Using a custom module in a lambda 
+
+```yaml
+───────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       │ File: cir_generator/__init__.py
+───────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+   1   │ from .services import *
+───────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+───────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       │ File: cir_generator/services.py
+───────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+   1   │
+   2   │ #%%
+   3   │ import faker
+   4   │ fake = faker.Faker()
+   5   │ # %%
+───────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+───────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       │ File: plaitpy_templates/poi_datasets.yml
+───────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+   1   │ fields:
+   2   │   country:
+   3   │     mixture: ['FR','BE','UK']
+   4   │   type:
+   5   │     mixture: ['public_places','transportation','stores']
+   6   │   amount:
+   7   │     value: 13
+   8   │   coords:
+   9   │     lambda: cir_generator.fake.local_latlng()
+  10   │
+  11   │ imports:
+  12   │   - cir_generator
+───────┴────────────────────────────────────────────────────────
+```

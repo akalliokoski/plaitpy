@@ -6,7 +6,8 @@ the template.yml file specifies how to generate records, it has several top leve
 * **defines** or **static** - a list of static variable definitions
 * **fields** - the list of fields in the records that this template generates
 * **args** - a list of fields that can be passed in from above (useful for composing templates)
-
+* **imports**  - a list of modules to import 
+* **requirements** - a list of modules to suggest installation for, whenever imports fail 
 ## mixin overview
 
 the **mixin** variable is a list of templates to ["mix
@@ -89,6 +90,15 @@ example:
       hour:
         lambda: time.time() % 3600
 
+
+Lambdas can return structured value, such as in : 
+
+    fields:
+      _geoip:
+        lambda: geoip.geolite2.lookup(this.ip)
+      country:
+        onlyif: this._geoip and this._geoip.country
+        lambda: this._geoip.country
 ### random
 
 **random**: specifies that this field should be generated from a lambda expression

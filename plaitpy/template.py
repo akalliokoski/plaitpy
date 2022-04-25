@@ -430,10 +430,17 @@ class Template(object):
             return self.csv_files[filename]
 
         with readfile(filename, "r") as csvfile:
-            dialect = csv.Sniffer().sniff(csvfile.read(1024))
+            sniffer = csv.Sniffer()
+            sample = csvfile.read(1024*8)
+            dialect = sniffer.sniff(sample)
+            has_header = sniffer.has_header(sample)
             csvfile.seek(0)
 
             reader = csv.reader(csvfile, dialect)
+            if has_header:
+                header = next(reader)
+            else:
+                header=None 
             csv_data = list(reader)
 
             self.csv_files[filename] = csv_data
