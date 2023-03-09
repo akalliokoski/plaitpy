@@ -1,6 +1,7 @@
 
 define:
       min_age: 18
+      max_age: 100
 
 fields:
       Pregnancies:
@@ -8,9 +9,12 @@ fields:
         finalize: int(max(0, value))
       Age:
         random: gammavariate(2.5, 10)
-        finalize: int(max($min_age, value))
+        finalize: int(min(max($min_age, value), $max_age))
       Outcome:
-        random: choices([0, 1], weights=[65, 35], k=1)
-        finalize: int(value[0])
+        mixture:
+          - value: 0
+            weight: 35
+          - value: 1
+            weight: 65
 
         
