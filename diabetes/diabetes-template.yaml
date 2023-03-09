@@ -1,0 +1,16 @@
+
+define:
+      min_age: 18
+
+fields:
+      Pregnancies:
+        random: gauss(3.8, 4)
+        finalize: int(max(0, value))
+      Age:
+        random: gammavariate(2.5, 10)
+        finalize: int(max($min_age, value))
+      Outcome:
+        random: choices([0, 1], weights=[65, 35], k=1)
+        finalize: int(value[0])
+
+        
